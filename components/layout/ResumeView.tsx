@@ -24,8 +24,6 @@ const FinalResumeView = ({
     window.print();
   };
 
-  console.log('path', path, process.env.NEXT_PUBLIC_BASE_URL);
-
   return (
     <PageWrapper>
       <FormProvider params={params}>
