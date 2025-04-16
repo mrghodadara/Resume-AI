@@ -1,48 +1,87 @@
-"use client";
+'use client';
 
-import { UserButton, useUser } from "@clerk/nextjs";
-import Link from "next/link";
-import React from "react";
+import { Button } from '@/components/ui/button';
+import { Container } from '@/components/layout/Container';
+import Link from 'next/link';
+import { Sparkles, Menu, X } from 'lucide-react';
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { UserButton, useUser } from '@clerk/nextjs';
 
 const Header = () => {
-  const user = useUser();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const { isSignedIn } = useUser();
+
+  const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'Features', href: '/#features' },
+    { name: 'How It Works', href: '/#how-it-works' },
+    { name: 'Testimonials', href: '/#testimonials' },
+    { name: 'Pricing', href: '/#pricing' },
+    { name: 'FAQ', href: '/#faq' },
+  ];
 
   return (
-    <header className="sticky top-0 z-50">
-      <nav className="backdrop-blur-md px-6 py-2.5">
-        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <Link href="/" className="flex items-center">
-            <img src="/icons/logo.svg" className="mr-3 h-7 sm:h-9" alt="logo" />
-            <span className="self-center text-xl font-bold whitespace-nowrap">
-              ResumeAI
-            </span>
+    <header>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
+        <Container className="flex items-center justify-between h-16">
+          <Link href="/" className="flex items-center space-x-2">
+            <Sparkles className="h-6 w-6 text-primary-500" />
+            <span className="text-xl font-bold">ResumeAI</span>
           </Link>
-          <div className="flex items-center lg:order-2">
-            {user?.isLoaded && !user?.isSignedIn ? (
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            {navLinks.map((link) => (
               <Link
-                href="/sign-in"
-                className="text-gray-800 hover:bg-primary-700/10 duration-300 focus:ring-4 focus:ring-primary-700/30 font-medium rounded-full text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                key={link.name}
+                href={link.href}
+                className={`text-sm font-medium transition-colors hover:text-primary-500 ${
+                  pathname === link.href ? 'text-primary-500' : 'text-gray-300'
+                }`}
               >
-                Log in
+                {link.name}
               </Link>
-            ) : (
-              <>
-                <div className="mr-4 h-full items-center align-middle flex max-md:hidden justify-center">
-                  <UserButton showName={true} />
-                </div>
-                <div className="mr-4 h-full items-center align-middle hidden max-md:flex justify-center">
-                  <UserButton showName={false} />
-                </div>
-              </>
-            )}
-            <Link
-              href={`${!user?.isSignedIn ? "/sign-up" : "/dashboard"}`}
-              className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-4 lg:px-5 py-2 lg:py-2.5 focus:outline-none"
-            >
-              {!user?.isSignedIn ? "Get started" : "Dashboard"}
-            </Link>
+            ))}
           </div>
-        </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 rounded-lg hover:bg-gray-800"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </Container>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-gray-900 border-t border-gray-800">
+            <Container className="py-4">
+              <div className="flex flex-col space-y-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`text-sm font-medium transition-colors hover:text-primary-500 ${
+                      pathname === link.href
+                        ? 'text-primary-500'
+                        : 'text-gray-300'
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </Container>
+          </div>
+        )}
       </nav>
     </header>
   );

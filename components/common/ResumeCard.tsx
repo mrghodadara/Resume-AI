@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import React, { useState } from "react";
+import Link from 'next/link';
+import React, { useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,12 +20,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Loader2, MoreVertical } from "lucide-react";
-import { useRouter } from "next-nprogress-bar";
-import { deleteResume } from "@/lib/actions/resume.actions";
-import { useToast } from "../ui/use-toast";
-import { usePathname } from "next/navigation";
+} from '@/components/ui/alert-dialog';
+import { Loader2, MoreVertical } from 'lucide-react';
+import { useRouter } from 'next-nprogress-bar';
+import { deleteResume } from '@/lib/actions/resume.actions';
+import { useToast } from '../ui/use-toast';
+import { usePathname } from 'next/navigation';
 
 const ResumeCard = ({
   resume,
@@ -39,7 +39,7 @@ const ResumeCard = ({
       <div className="!bg-slate-200/30 relative aspect-[1/1.2] rounded-lg shadow-lg flex flex-col hover:scale-105 transition-all skeleton">
         <div className="flex-1"></div>
         <div className="border-0 p-3 flex justify-between bg-white/40 rounded-b-lg">
-          ‎{" "}
+          ‎{' '}
         </div>
       </div>
     );
@@ -62,18 +62,18 @@ const ResumeCard = ({
 
     if (result.success) {
       toast({
-        title: "Information saved.",
-        description: "Resume deleted successfully.",
-        className: "bg-white",
+        title: 'Information saved.',
+        description: 'Resume deleted successfully.',
+        className: 'bg-white',
       });
 
       refreshResumes();
     } else {
       toast({
-        title: "Uh Oh! Something went wrong.",
+        title: 'Uh Oh! Something went wrong.',
         description: result?.error,
-        variant: "destructive",
-        className: "bg-white",
+        variant: 'destructive',
+        className: 'bg-white',
       });
     }
   };
@@ -81,7 +81,7 @@ const ResumeCard = ({
   return (
     <div className="relative aspect-[1/1.2] flex flex-col hover:scale-105 transition-all">
       <Link
-        href={"/my-resume/" + myResume.resumeId + "/view"}
+        href={'/my-resume/' + myResume.resumeId + '/view'}
         className="flex-grow"
       >
         <div
@@ -109,7 +109,7 @@ const ResumeCard = ({
           <DropdownMenuContent>
             <DropdownMenuItem
               onClick={() =>
-                router.push("/my-resume/" + myResume.resumeId + "/edit")
+                router.push('/my-resume/' + myResume.resumeId + '/edit')
               }
             >
               Edit
@@ -117,7 +117,7 @@ const ResumeCard = ({
 
             <DropdownMenuItem
               onClick={() =>
-                router.push("/my-resume/" + myResume.resumeId + "/view")
+                router.push('/my-resume/' + myResume.resumeId + '/view')
               }
             >
               View
@@ -153,7 +153,7 @@ const ResumeCard = ({
                   <Loader2 size={20} className="animate-spin" /> &nbsp; Deleting
                 </>
               ) : (
-                "Delete"
+                'Delete'
               )}
             </AlertDialogAction>
           </AlertDialogFooter>

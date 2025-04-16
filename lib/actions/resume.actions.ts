@@ -1,12 +1,12 @@
-"use server";
+'use server';
 
-import { useUser } from "@clerk/nextjs";
-import Education from "../models/education.model";
-import Experience from "../models/experience.model";
-import Resume from "../models/resume.model";
-import Skill from "../models/skill.model";
-import { connectToDB } from "../mongoose";
-import { revalidatePath } from "next/cache";
+import { useUser } from '@clerk/nextjs';
+import Education from '../models/education.model';
+import Experience from '../models/experience.model';
+import Resume from '../models/resume.model';
+import Skill from '../models/skill.model';
+import { connectToDB } from '../mongoose';
+import { revalidatePath } from 'next/cache';
 
 export async function createResume({
   resumeId,
@@ -39,15 +39,15 @@ export async function fetchResume(resumeId: string) {
 
     const resume = await Resume.findOne({ resumeId: resumeId })
       .populate({
-        path: "experience",
+        path: 'experience',
         model: Experience,
       })
       .populate({
-        path: "education",
+        path: 'education',
         model: Education,
       })
       .populate({
-        path: "skills",
+        path: 'skills',
         model: Skill,
       });
 
@@ -58,7 +58,7 @@ export async function fetchResume(resumeId: string) {
 }
 
 export async function fetchUserResumes(userId: string) {
-  if (userId === "") {
+  if (userId === '') {
     return [];
   }
 
@@ -74,7 +74,7 @@ export async function fetchUserResumes(userId: string) {
 }
 
 export async function checkResumeOwnership(userId: string, resumeId: string) {
-  if (userId === "") {
+  if (userId === '') {
     return false;
   }
 
@@ -85,6 +85,7 @@ export async function checkResumeOwnership(userId: string, resumeId: string) {
 
     return resume ? true : false;
   } catch (error: any) {
+    console.log('Error', error);
     throw new Error(`Failed to check resume ownership: ${error.message}`);
   }
 }
@@ -111,7 +112,7 @@ export async function updateResume({
     const resume = await Resume.findOne({ resumeId: resumeId });
 
     if (!resume) {
-      return { success: false, error: "Resume not found" };
+      return { success: false, error: 'Resume not found' };
     }
 
     Object.keys(updates).forEach((key) => {
@@ -141,7 +142,7 @@ export async function addExperienceToResume(
     const resume = await Resume.findOne({ resumeId: resumeId });
 
     if (!resume) {
-      throw new Error("Resume not found");
+      throw new Error('Resume not found');
     }
 
     const savedExperiences = await Promise.all(
@@ -170,7 +171,7 @@ export async function addExperienceToResume(
 
     return { success: true, data: JSON.stringify(updatedResume) };
   } catch (error: any) {
-    console.error("Error adding or updating experience to resume: ", error);
+    console.error('Error adding or updating experience to resume: ', error);
     return { success: false, error: error?.message };
   }
 }
@@ -183,7 +184,7 @@ export async function addEducationToResume(
     const resume = await Resume.findOne({ resumeId: resumeId });
 
     if (!resume) {
-      throw new Error("Resume not found");
+      throw new Error('Resume not found');
     }
 
     const savedEducation = await Promise.all(
@@ -210,20 +211,17 @@ export async function addEducationToResume(
 
     return { success: true, data: JSON.stringify(updatedResume) };
   } catch (error: any) {
-    console.error("Error adding or updating education to resume: ", error);
+    console.error('Error adding or updating education to resume: ', error);
     return { success: false, error: error?.message };
   }
 }
 
-export async function addSkillToResume(
-  resumeId: string,
-  skillDataArray: any
-) {
+export async function addSkillToResume(resumeId: string, skillDataArray: any) {
   try {
     const resume = await Resume.findOne({ resumeId: resumeId });
 
     if (!resume) {
-      throw new Error("Resume not found");
+      throw new Error('Resume not found');
     }
 
     const savedSkills = await Promise.all(
@@ -248,7 +246,7 @@ export async function addSkillToResume(
 
     return { success: true, data: JSON.stringify(updatedResume) };
   } catch (error: any) {
-    console.error("Error adding or updating skill to resume: ", error);
+    console.error('Error adding or updating skill to resume: ', error);
     return { success: false, error: error?.message };
   }
 }
