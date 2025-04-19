@@ -1,17 +1,23 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Container } from '@/components/layout/Container';
 import Link from 'next/link';
 import { Sparkles, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { UserButton, useUser } from '@clerk/nextjs';
+import {
+  UserButton,
+  useUser,
+  SignInButton,
+  SignUpButton,
+  UserProfile,
+} from '@clerk/nextjs';
+import { Button } from '../ui/button';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -44,6 +50,34 @@ const Header = () => {
                 {link.name}
               </Link>
             ))}
+          </div>
+
+          <div className="flex items-center gap-4">
+            {isLoaded && (
+              <>
+                {isSignedIn ? (
+                  <>
+                    <Button className="bg-primary-500 hover:bg-primary-600 py-2 h-auto">
+                      Dashboard
+                    </Button>
+                    <UserButton userProfileUrl="/profile" />
+                  </>
+                ) : (
+                  <>
+                    <SignInButton>
+                      <Button className="border border-primary-500 hover:border-primary-600 text-primary-500 hover:text-primary-600">
+                        Sign in
+                      </Button>
+                    </SignInButton>
+                    <SignUpButton>
+                      <Button className="bg-primary-500 hover:bg-primary-600">
+                        Sign up
+                      </Button>
+                    </SignUpButton>
+                  </>
+                )}
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}

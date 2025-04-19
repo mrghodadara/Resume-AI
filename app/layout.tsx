@@ -1,19 +1,21 @@
-import type { Metadata } from "next";
-import { IBM_Plex_Serif, Inter, Nunito } from "next/font/google";
-import { Toaster } from "@/components/ui/toaster";
-import { ClerkProvider } from "@clerk/nextjs";
-import Providers from "@/components/common/ProgressBarProvider";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { IBM_Plex_Serif, Inter, Nunito } from 'next/font/google';
+import { Toaster } from '@/components/ui/toaster';
+import { ClerkProvider } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const nunito = Nunito({ subsets: ["latin"], variable: "--font-nunito" });
+import Providers from '@/components/common/ProgressBarProvider';
+import './globals.css';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const nunito = Nunito({ subsets: ['latin'], variable: '--font-nunito' });
 
 export const metadata: Metadata = {
-  title: "ResumeAI - Professional AI Resume Builder",
+  title: 'ResumeAI - Create Professional Resumes with AI',
   description:
-    "Generate a polished, professional resume in just a few clicks with our AI-powered resume builder.",
+    'Create professional resumes with the help of AI. Get personalized suggestions and templates to make your resume stand out.',
   icons: {
-    icon: "/icons/favicon.ico",
+    icon: '/favicon.svg',
   },
 };
 
@@ -27,9 +29,12 @@ export default function RootLayout({
       afterSignOutUrl="/"
       appearance={{
         layout: {
-          socialButtonsPlacement: "bottom",
-          logoImageUrl: "/icons/logo.svg",
+          socialButtonsPlacement: 'bottom',
+          logoImageUrl: '/icons/logo.svg',
+          animations: true,
         },
+        baseTheme: dark,
+        variables: { colorPrimary: '#0ea5e9', colorBackground: '#101828' },
       }}
     >
       <html lang="en">
