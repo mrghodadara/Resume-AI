@@ -26,7 +26,7 @@ export async function createResume({
       title,
     });
 
-    return { success: true, data: JSON.stringify(newResume) };
+    return { success: true, data: newResume };
   } catch (error: any) {
     console.error(`Failed to create resume: ${error.message}`);
     return { success: false, error: error.message };
@@ -57,17 +57,11 @@ export async function fetchResume(resumeId: string) {
   }
 }
 
-export async function fetchUserResumes(userId: string) {
-  if (userId === '') {
-    return [];
-  }
-
+export async function getResumesByUserId(userId: string) {
   try {
     await connectToDB();
 
-    const resumes = await Resume.find({ userId: userId });
-
-    return JSON.stringify(resumes);
+    return await Resume.find({ userId });
   } catch (error: any) {
     throw new Error(`Failed to fetch user resumes: ${error.message}`);
   }

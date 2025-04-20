@@ -60,6 +60,7 @@ const Header = () => {
                     <Button className="bg-primary-500 hover:bg-primary-600 py-2 h-auto">
                       Dashboard
                     </Button>
+
                     <UserButton userProfileUrl="/profile" />
                   </>
                 ) : (
