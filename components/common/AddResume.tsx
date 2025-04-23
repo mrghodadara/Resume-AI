@@ -29,7 +29,7 @@ import { toast } from '../ui/use-toast';
 import { useRouter } from 'next-nprogress-bar';
 import { useUser } from '@clerk/nextjs';
 
-const AddResume = () => {
+const AddResume = ({ refreshResumes }: { refreshResumes: () => void }) => {
   const router = useRouter();
   const { user } = useUser();
   const [isOpenModal, setIsOpenModal] = useState(false);
