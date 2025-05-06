@@ -1,23 +1,20 @@
 'use client';
 
-import DashboardCards from '@/components/layout/DashboardCards';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
-import Link from 'next/link';
-import { useUser, UserProfile } from '@clerk/nextjs';
+import { UserProfile } from '@clerk/nextjs';
+import { Container } from '@/components/layout/Container';
 
 const Profile = () => {
-  const { user } = useUser();
-
   return (
-    <main className="min-h-screen bg-gray-950 text-white">
+    <main className="flex min-h-screen flex-col bg-gray-950 text-white">
       <Header />
-      <div className="pt-16">
-        <div className="text-white flex justify-center h-[calc(100dvh-122px)]  items-center">
-          <UserProfile routing="path" path="/profile" />
-        </div>
+      <div className="min-h-screen bg-gray-950 text-white pt-16">
+        <Container className="py-8 flex flex-col gap-8">
+          <div className="text-white flex justify-center items-center flex-col">
+            <UserProfile routing="path" path="/profile" />
+          </div>
+        </Container>
       </div>
       <Footer />
     </main>

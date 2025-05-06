@@ -3,23 +3,11 @@
 import DashboardCards from '@/components/layout/DashboardCards';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
-import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import { Container } from '@/components/layout/Container';
 
 const Dashboard = () => {
   const { user, isLoaded } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isLoaded && !user) {
-      router.push('/sign-in');
-    }
-  }, [isLoaded, user, router]);
 
   if (!isLoaded) {
     return (
