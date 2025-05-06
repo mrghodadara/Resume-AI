@@ -14,6 +14,9 @@ const Page = () => {
           elements: {
             cardBox: 'min-w-[460px]',
           },
+          layout: {
+            // logoImageUrl: '/favicon.svg',
+          },
         }}
       />
     </div>
