@@ -5,7 +5,7 @@ import { useFormContext } from "@/lib/context/FormProvider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Rating } from "@smastrom/react-rating";
-import { Loader2, Minus, Plus } from "lucide-react";
+import { Loader2, Minus, Plus, Trash2 } from "lucide-react";
 import "@smastrom/react-rating/style.css";
 import { addSkillToResume, updateResume } from "@/lib/actions/resume.actions";
 import { useToast } from "@/components/ui/use-toast";
@@ -79,14 +79,14 @@ const SkillsForm = ({ params }: { params: { id: string } }) => {
       toast({
         title: "Information saved.",
         description: "Skill sets updated successfully.",
-        className: "bg-white",
+        className: "bg-gray-900 text-white border-gray-800",
       });
     } else {
       toast({
         title: "Uh Oh! Something went wrong.",
         description: result?.error,
         variant: "destructive",
-        className: "bg-white",
+        className: "bg-gray-900 text-white border-gray-800",
       });
     }
 
@@ -94,70 +94,77 @@ const SkillsForm = ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <div className="p-5 shadow-lg rounded-lg border-t-primary-700 border-t-4 bg-white">
-      <h2 className="text-lg font-semibold leading-none tracking-tight">
-        Skill Sets
-      </h2>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-        Add Your top professional key skills
-      </p>
+    <div>
+      <div className="p-5 shadow-lg rounded-lg border-t-primary-500 border-t-4 bg-gray-900/50 backdrop-blur-sm">
+        <h2 className="text-lg font-semibold leading-none tracking-tight text-white">
+          Skills
+        </h2>
+        <p className="mt-1 text-sm text-gray-400">
+          Add your skills and expertise
+        </p>
 
-      <div className="mt-5">
         {skillsList.map((item: any, index: number) => (
-          <div
-            key={index}
-            className="flex max-lg:flex-col lg:items-end justify-between mb-2 border rounded-lg p-3 space-y-2 lg:space-x-12"
-          >
-            <div className="space-y-2 w-full">
-              <label className="mt-2 text-slate-700 font-semibold">Name:</label>
-              <Input
-                className="no-focus mt-2"
-                defaultValue={item.name}
-                onChange={(e: any) =>
-                  handleChange(index, "name", e.target.value)
-                }
-              />
+          <div key={index}>
+            <div className="grid grid-cols-2 gap-3 border border-gray-700 p-3 my-5 rounded-lg">
+              <div className="space-y-2">
+                <label className="text-gray-300 font-semibold">Skill Name:</label>
+                <Input
+                  name="name"
+                  onChange={(e) => handleChange(index, "name", e.target.value)}
+                  defaultValue={item.name}
+                  className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-gray-300 font-semibold">Level:</label>
+                <Input
+                  name="level"
+                  onChange={(e) => handleChange(index, "level", e.target.value)}
+                  defaultValue={item.level}
+                  className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
+                />
+              </div>
+              {skillsList.length > 1 && (
+                <div className="col-span-2 flex justify-end">
+                  <Button
+                    type="button"
+                    onClick={() => RemoveSkills()}
+                    variant="destructive"
+                    size="sm"
+                    className="bg-red-500 hover:bg-red-600 text-white"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
             </div>
-            <Rating
-              style={{ maxWidth: 160, height: 46 }}
-              value={item.rating || 1}
-              onChange={(v: any) => handleChange(index, "rating", v)}
-              orientation="horizontal"
-              isRequired
-            />
           </div>
         ))}
-      </div>
-      <div className="mt-5 flex gap-2 justify-between">
-        <div className="flex gap-2">
+
+        <div className="flex justify-between mt-5">
           <Button
-            variant="outline"
+            type="button"
             onClick={AddNewSkills}
-            className="text-primary"
+            size="sm"
+            className="bg-primary-500 hover:bg-primary-600 text-white"
           >
-            <Plus className="size-4 mr-2" /> Add More
+            <Plus className="h-4 w-4 mr-2" /> Add Skill
           </Button>
           <Button
-            variant="outline"
-            onClick={RemoveSkills}
-            className="text-primary"
+            type="submit"
+            disabled={isLoading}
+            onClick={onSave}
+            className="bg-primary-500 hover:bg-primary-600 text-white"
           >
-            <Minus className="size-4 mr-2" /> Remove
+            {isLoading ? (
+              <>
+                <Loader2 size={20} className="animate-spin" /> &nbsp; Saving
+              </>
+            ) : (
+              "Save"
+            )}
           </Button>
         </div>
-        <Button
-          disabled={isLoading}
-          onClick={onSave}
-          className="bg-primary-700 hover:bg-primary-800 text-white"
-        >
-          {isLoading ? (
-            <>
-              <Loader2 size={20} className="animate-spin" /> &nbsp; Saving
-            </>
-          ) : (
-            "Save"
-          )}
-        </Button>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { generateEducationDescription } from "@/lib/actions/gemini.actions";
 import { addEducationToResume } from "@/lib/actions/resume.actions";
 import { useFormContext } from "@/lib/context/FormProvider";
-import { Brain, Loader2, Minus, Plus } from "lucide-react";
+import { Brain, Loader2, Minus, Plus, Trash2 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
 const EducationForm = ({ params }: { params: { id: string } }) => {
@@ -18,24 +18,20 @@ const EducationForm = ({ params }: { params: { id: string } }) => {
   const [aiGeneratedDescriptionList, setAiGeneratedDescriptionList] = useState(
     [] as any
   );
-  const [educationList, setEducationList] = useState(
-    formData?.education.length > 0
-      ? formData?.education
-      : [
-          {
-            universityName: "",
-            degree: "",
-            major: "",
-            startDate: "",
-            endDate: "",
-            description: "",
-          },
-        ]
-  );
-  const [currentAiIndex, setCurrentAiIndex] = useState(
-    educationList.length - 1
-  );
   const { toast } = useToast();
+
+  const [educationList, setEducationList] = useState(
+    formData?.education || [
+      {
+        universityName: "",
+        degree: "",
+        major: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+      },
+    ]
+  );
 
   useEffect(() => {
     educationList.forEach((education: any, index: number) => {
@@ -46,22 +42,22 @@ const EducationForm = ({ params }: { params: { id: string } }) => {
     });
   }, [educationList]);
 
-  const handleChange = (event: any, index: number) => {
-    const newEntries = educationList.slice();
-    const { name, value } = event.target;
-    newEntries[index][name] = value;
-    setEducationList(newEntries);
+  const handleChange = (e: any, index: number) => {
+    const { name, value } = e.target;
+    const list = [...educationList];
+    list[index][name] = value;
+    setEducationList(list);
 
     handleInputChange({
       target: {
         name: "education",
-        value: newEntries,
+        value: list,
       },
     });
   };
 
-  const AddNewEducation = () => {
-    const newEntries = [
+  const handleAdd = () => {
+    setEducationList([
       ...educationList,
       {
         universityName: "",
@@ -71,29 +67,18 @@ const EducationForm = ({ params }: { params: { id: string } }) => {
         endDate: "",
         description: "",
       },
-    ];
-    setEducationList(newEntries);
-
-    handleInputChange({
-      target: {
-        name: "education",
-        value: newEntries,
-      },
-    });
+    ]);
   };
 
-  const RemoveEducation = () => {
-    const newEntries = educationList.slice(0, -1);
-    setEducationList(newEntries);
-
-    if (currentAiIndex > newEntries.length - 1) {
-      setCurrentAiIndex(newEntries.length - 1);
-    }
+  const handleRemove = (index: number) => {
+    const list = [...educationList];
+    list.splice(index, 1);
+    setEducationList(list);
 
     handleInputChange({
       target: {
         name: "education",
-        value: newEntries,
+        value: list,
       },
     });
   };
@@ -112,13 +97,11 @@ const EducationForm = ({ params }: { params: { id: string } }) => {
         description:
           "Please enter the name of institute, degree and major to generate description.",
         variant: "destructive",
-        className: "bg-white border-2",
+        className: "bg-gray-900 text-white border-gray-800",
       });
 
       return;
     }
-
-    setCurrentAiIndex(index);
 
     setIsAiLoading(true);
 
@@ -149,14 +132,14 @@ const EducationForm = ({ params }: { params: { id: string } }) => {
       toast({
         title: "Information saved.",
         description: "Educational details updated successfully.",
-        className: "bg-white",
+        className: "bg-gray-900 text-white border-gray-800",
       });
     } else {
       toast({
         title: "Uh Oh! Something went wrong.",
         description: result?.error,
         variant: "destructive",
-        className: "bg-white",
+        className: "bg-gray-900 text-white border-gray-800",
       });
     }
 
@@ -165,48 +148,48 @@ const EducationForm = ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <div className="p-5 shadow-lg rounded-lg border-t-primary-700 border-t-4 bg-white">
-        <h2 className="text-lg font-semibold leading-none tracking-tight">
+      <div className="p-5 shadow-lg rounded-lg border-t-primary-500 border-t-4 bg-gray-900/50 backdrop-blur-sm">
+        <h2 className="text-lg font-semibold leading-none tracking-tight text-white">
           Education
         </h2>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-1 text-sm text-gray-400">
           Add your educational details
         </p>
 
         {educationList.map((item: any, index: number) => (
           <div key={index}>
-            <div className="grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg">
+            <div className="grid grid-cols-2 gap-3 border border-gray-700 p-3 my-5 rounded-lg">
               <div className="col-span-2 space-y-2">
-                <label className="text-slate-700 font-semibold">
+                <label className="text-gray-300 font-semibold">
                   Name of Institute:
                 </label>
                 <Input
                   name="universityName"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.universityName}
-                  className="no-focus"
+                  className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-slate-700 font-semibold">Degree:</label>
+                <label className="text-gray-300 font-semibold">Degree:</label>
                 <Input
                   name="degree"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.degree}
-                  className="no-focus"
+                  className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-slate-700 font-semibold">Major:</label>
+                <label className="text-gray-300 font-semibold">Major:</label>
                 <Input
                   name="major"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.major}
-                  className="no-focus"
+                  className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-slate-700 font-semibold">
+                <label className="text-gray-300 font-semibold">
                   Start Date:
                 </label>
                 <Input
@@ -214,76 +197,61 @@ const EducationForm = ({ params }: { params: { id: string } }) => {
                   name="startDate"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.startDate}
-                  className="no-focus"
+                  className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-slate-700 font-semibold">
-                  End Date:
-                </label>
+                <label className="text-gray-300 font-semibold">End Date:</label>
                 <Input
                   type="date"
                   name="endDate"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={item?.endDate}
-                  className="no-focus"
+                  className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
                 />
               </div>
               <div className="col-span-2 space-y-2">
-                <div className="flex justify-between items-end mt-2">
-                  <label className="text-slate-700 font-semibold">
-                    Description:
-                  </label>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      generateEducationDescriptionFromAI(index);
-                    }}
-                    type="button"
-                    size="sm"
-                    className="border-primary text-primary flex gap-2"
-                    disabled={isAiLoading}
-                  >
-                    {isAiLoading && currentAiIndex === index ? (
-                      <Loader2 size={16} className="animate-spin" />
-                    ) : (
-                      <Brain className="h-4 w-4" />
-                    )}{" "}
-                    Generate from AI
-                  </Button>
-                </div>
-                <Textarea
-                  id={`description-${index}`}
+                <label className="text-gray-300 font-semibold">
+                  Description:
+                </label>
+                <Input
                   name="description"
                   onChange={(e) => handleChange(e, index)}
-                  defaultValue={item?.description || ""}
-                  className="no-focus"
+                  defaultValue={item?.description}
+                  className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
                 />
               </div>
+              {educationList.length > 1 && (
+                <div className="col-span-2 flex justify-end">
+                  <Button
+                    type="button"
+                    onClick={() => handleRemove(index)}
+                    variant="destructive"
+                    size="sm"
+                    className="bg-red-500 hover:bg-red-600 text-white"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         ))}
-        <div className="mt-3 flex gap-2 justify-between">
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={AddNewEducation}
-              className="text-primary"
-            >
-              <Plus className="size-4 mr-2" /> Add More
-            </Button>
-            <Button
-              variant="outline"
-              onClick={RemoveEducation}
-              className="text-primary"
-            >
-              <Minus className="size-4 mr-2" /> Remove
-            </Button>
-          </div>
+
+        <div className="flex justify-between mt-5">
           <Button
+            type="button"
+            onClick={handleAdd}
+            size="sm"
+            className="bg-primary-500 hover:bg-primary-600 text-white"
+          >
+            <Plus className="h-4 w-4 mr-2" /> Add Education
+          </Button>
+          <Button
+            type="submit"
             disabled={isLoading}
             onClick={onSave}
-            className="bg-primary-700 hover:bg-primary-800 text-white"
+            className="bg-primary-500 hover:bg-primary-600 text-white"
           >
             {isLoading ? (
               <>
@@ -307,7 +275,7 @@ const EducationForm = ({ params }: { params: { id: string } }) => {
                   {
                     target: { name: "description", value: item?.description },
                   },
-                  currentAiIndex
+                  index
                 )
               }
               className={`p-5 shadow-lg my-4 rounded-lg border-t-2 ${

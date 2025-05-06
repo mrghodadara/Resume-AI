@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { FormProvider } from "@/lib/context/FormProvider";
-import React from "react";
-import ResumeEditForm from "./ResumeEditForm";
-import ResumePreview from "./ResumePreview";
+import { FormProvider } from '@/lib/context/FormProvider';
+import React from 'react';
+import ResumeEditForm from './ResumeEditForm';
+import ResumePreview from './ResumePreview';
 
 const ResumeEditor = ({
   params,
@@ -18,9 +18,9 @@ const ResumeEditor = ({
 
   return (
     <FormProvider params={params}>
-      <div className="p-10 max-sm:p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 justify-center items-start pb-16 max-sm:pb-8">
-          <ResumeEditForm params={params} userId={userId} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 justify-center items-start">
+        <ResumeEditForm params={params} userId={userId} />
+        <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-4">
           <ResumePreview />
         </div>
       </div>

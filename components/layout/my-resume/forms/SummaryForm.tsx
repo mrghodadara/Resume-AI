@@ -8,6 +8,10 @@ import { updateResume } from "@/lib/actions/resume.actions";
 import { useFormContext } from "@/lib/context/FormProvider";
 import { Brain, Loader2 } from "lucide-react";
 import React, { useRef, useState } from "react";
+import dynamic from "next/dynamic";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 
 const SummaryForm = ({ params }: { params: { id: string } }) => {
   const listRef = useRef<HTMLDivElement>(null);
@@ -67,14 +71,14 @@ const SummaryForm = ({ params }: { params: { id: string } }) => {
       toast({
         title: "Information saved.",
         description: "Summary updated successfully.",
-        className: "bg-white",
+        className: "bg-gray-900 text-white border-gray-800",
       });
     } else {
       toast({
         title: "Uh Oh! Something went wrong.",
         description: result?.error,
         variant: "destructive",
-        className: "bg-white",
+        className: "bg-gray-900 text-white border-gray-800",
       });
     }
 
@@ -83,47 +87,35 @@ const SummaryForm = ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <div className="p-5 shadow-lg rounded-lg border-t-primary-700 border-t-4 bg-white">
-        <h2 className="text-lg font-semibold leading-none tracking-tight">
+      <div className="p-5 shadow-lg rounded-lg border-t-primary-500 border-t-4 bg-gray-900/50 backdrop-blur-sm">
+        <h2 className="text-lg font-semibold leading-none tracking-tight text-white">
           Summary
         </h2>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-1 text-sm text-gray-400">
           Add summary about your job
         </p>
 
-        <form className="mt-5 space-y-2" onSubmit={onSave}>
-          <div className="flex justify-between items-end">
-            <label className=" text-slate-700 font-semibold">Summary:</label>
-            <Button
-              variant="outline"
-              onClick={() => {
-                generateSummaryFromAI();
-              }}
-              type="button"
-              size="sm"
-              className="border-primary text-primary flex gap-2"
-              disabled={isAiLoading}
-            >
-              {isAiLoading ? (
-                <Loader2 size={16} className="animate-spin" />
-              ) : (
-                <Brain className="h-4 w-4" />
-              )}{" "}
-              Generate from AI
-            </Button>
+        <form onSubmit={onSave}>
+          <div className="mt-5">
+            <ReactQuill
+              theme="snow"
+              value={formData?.summary}
+              onChange={(value) =>
+                handleInputChange({
+                  target: {
+                    name: "summary",
+                    value: value,
+                  },
+                })
+              }
+              className="bg-gray-800 border-gray-700 text-white"
+            />
           </div>
-          <Textarea
-            className="no-focus min-h-[10em]"
-            required
-            value={summary}
-            onChange={handleSummaryChange}
-            defaultValue={formData?.summary || ""}
-          />
-          <div className="flex justify-end">
+          <div className="mt-5 flex justify-end">
             <Button
-              className="mt-3 bg-primary-700 hover:bg-primary-800 text-white"
               type="submit"
               disabled={isLoading}
+              className="bg-primary-500 hover:bg-primary-600 text-white"
             >
               {isLoading ? (
                 <>

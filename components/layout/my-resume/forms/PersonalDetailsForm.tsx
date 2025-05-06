@@ -36,14 +36,14 @@ const PersonalDetailsForm = ({ params }: { params: { id: string } }) => {
       toast({
         title: "Information saved.",
         description: "Personal details updated successfully.",
-        className: "bg-white",
+        className: "bg-gray-900 text-white border-gray-800",
       });
     } else {
       toast({
         title: "Uh Oh! Something went wrong.",
         description: result?.error,
         variant: "destructive",
-        className: "bg-white",
+        className: "bg-gray-900 text-white border-gray-800",
       });
     }
 
@@ -51,18 +51,18 @@ const PersonalDetailsForm = ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <div className="p-5 shadow-lg rounded-lg border-t-primary-700 border-t-4 bg-white">
-      <h2 className="text-lg font-semibold leading-none tracking-tight">
+    <div className="p-5 shadow-lg rounded-lg border-t-primary-500 border-t-4 bg-gray-900/50 backdrop-blur-sm">
+      <h2 className="text-lg font-semibold leading-none tracking-tight text-white">
         Personal Details
       </h2>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+      <p className="mt-1 text-sm text-gray-400">
         Get Started with the basic information
       </p>
 
       <form onSubmit={onSave}>
         <div className="grid grid-cols-2 mt-5 gap-3">
           <div className="space-y-2">
-            <label className="mt-2 text-slate-700 font-semibold">
+            <label className="mt-2 text-gray-300 font-semibold">
               First Name:
             </label>
             <Input
@@ -70,11 +70,11 @@ const PersonalDetailsForm = ({ params }: { params: { id: string } }) => {
               defaultValue={formData?.firstName}
               required
               onChange={handleInputChange}
-              className="no-focus"
+              className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
             />
           </div>
           <div className="space-y-2">
-            <label className="mt-2 text-slate-700 font-semibold">
+            <label className="mt-2 text-gray-300 font-semibold">
               Last Name:
             </label>
             <Input
@@ -82,11 +82,11 @@ const PersonalDetailsForm = ({ params }: { params: { id: string } }) => {
               required
               onChange={handleInputChange}
               defaultValue={formData?.lastName}
-              className="no-focus"
+              className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
             />
           </div>
           <div className="col-span-2 space-y-2">
-            <label className="mt-2 text-slate-700 font-semibold">
+            <label className="mt-2 text-gray-300 font-semibold">
               Job Title:
             </label>
             <Input
@@ -94,11 +94,11 @@ const PersonalDetailsForm = ({ params }: { params: { id: string } }) => {
               required
               onChange={handleInputChange}
               defaultValue={formData?.jobTitle}
-              className="no-focus"
+              className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
             />
           </div>
           <div className="col-span-2 space-y-2">
-            <label className="mt-2 text-slate-700 font-semibold">
+            <label className="mt-2 text-gray-300 font-semibold">
               Address:
             </label>
             <Input
@@ -106,27 +106,27 @@ const PersonalDetailsForm = ({ params }: { params: { id: string } }) => {
               required
               defaultValue={formData?.address}
               onChange={handleInputChange}
-              className="no-focus"
+              className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
             />
           </div>
           <div className="space-y-2">
-            <label className="mt-2 text-slate-700 font-semibold">Phone:</label>
+            <label className="mt-2 text-gray-300 font-semibold">Phone:</label>
             <Input
               name="phone"
               required
               defaultValue={formData?.phone}
               onChange={handleInputChange}
-              className="no-focus"
+              className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
             />
           </div>
           <div className="space-y-2">
-            <label className="mt-2 text-slate-700 font-semibold">Email:</label>
+            <label className="mt-2 text-gray-300 font-semibold">Email:</label>
             <Input
               name="email"
               required
               defaultValue={formData?.email}
               onChange={handleInputChange}
-              className="no-focus"
+              className="no-focus bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-primary-500 focus:ring-primary-500"
             />
           </div>
         </div>
@@ -134,7 +134,7 @@ const PersonalDetailsForm = ({ params }: { params: { id: string } }) => {
           <Button
             type="submit"
             disabled={isLoading}
-            className="bg-primary-700 hover:bg-primary-800 text-white"
+            className="bg-primary-500 hover:bg-primary-600 text-white"
           >
             {isLoading ? (
               <>

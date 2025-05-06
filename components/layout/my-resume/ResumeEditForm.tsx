@@ -44,7 +44,7 @@ const ResumeEditForm = ({
         <div className="flex gap-2">
           {activeFormIndex > 1 && (
             <Button
-              className="flex gap-2 bg-primary-700 hover:bg-primary-800 text-white"
+              className="flex gap-2 bg-primary-500 hover:bg-primary-600 text-white"
               size="sm"
               onClick={() => setActiveFormIndex(activeFormIndex - 1)}
             >
@@ -52,7 +52,7 @@ const ResumeEditForm = ({
             </Button>
           )}
           <Button
-            className="flex gap-2 bg-primary-700 hover:bg-primary-800 text-white"
+            className="flex gap-2 bg-primary-500 hover:bg-primary-600 text-white"
             size="sm"
             disabled={isLoading}
             onClick={async () => {
@@ -120,7 +120,7 @@ const ResumeEditForm = ({
                       educationResult?.error ||
                       skillsResult?.error,
                     variant: "destructive",
-                    className: "bg-white",
+                    className: "bg-gray-900 text-white border-gray-800",
                   });
                 }
               }
