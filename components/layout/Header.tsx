@@ -4,7 +4,7 @@ import { Container } from '@/components/layout/Container';
 import Link from 'next/link';
 import { Sparkles, Menu, X } from 'lucide-react';
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   UserButton,
   useUser,
@@ -15,6 +15,8 @@ import {
 import { Button } from '../ui/button';
 
 const Header = () => {
+  const router = useRouter()
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const { isSignedIn, isLoaded } = useUser();
@@ -43,9 +45,8 @@ const Header = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-primary-500 ${
-                  pathname === link.href ? 'text-primary-500' : 'text-gray-300'
-                }`}
+                className={`text-sm font-medium transition-colors hover:text-primary-500 ${pathname === link.href ? 'text-primary-500' : 'text-gray-300'
+                  }`}
               >
                 {link.name}
               </Link>
@@ -57,7 +58,7 @@ const Header = () => {
               <>
                 {isSignedIn ? (
                   <>
-                    <Button className="bg-primary-500 hover:bg-primary-600 py-2 h-auto">
+                    <Button onClick={() => router.push('/dashboard')} className="bg-primary-500 hover:bg-primary-600 py-2 h-auto">
                       Dashboard
                     </Button>
 
@@ -103,11 +104,10 @@ const Header = () => {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`text-sm font-medium transition-colors hover:text-primary-500 ${
-                      pathname === link.href
-                        ? 'text-primary-500'
-                        : 'text-gray-300'
-                    }`}
+                    className={`text-sm font-medium transition-colors hover:text-primary-500 ${pathname === link.href
+                      ? 'text-primary-500'
+                      : 'text-gray-300'
+                      }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}
