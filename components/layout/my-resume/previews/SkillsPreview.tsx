@@ -8,7 +8,7 @@ const SkillsPreview = () => {
   return (
     <div className="my-6">
       <h2
-        className="text-center font-bold text-sm mb-2"
+        className="text-center font-bold text-sm mb-2 text-black"
         style={{
           color: formData?.themeColor || themeColors[0],
         }}
@@ -27,7 +27,7 @@ const SkillsPreview = () => {
             key={index}
             className="grid grid-cols-3 items-center justify-between gap-3"
           >
-            <h2 className="text-xs">{skill.name}</h2>
+            <h2 className="text-xs text-black">{skill.name}</h2>
             <div className="h-2 bg-gray-200 w-full rounded-full col-span-2">
               <div
                 className="h-2 rounded-full"

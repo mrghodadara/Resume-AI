@@ -8,7 +8,7 @@ const ExperiencePreview = () => {
   return (
     <div className="my-6">
       <h2
-        className="text-center font-bold text-sm mb-2"
+        className="text-center font-bold text-sm mb-2 text-black"
         style={{
           color: formData?.themeColor || themeColors[0],
         }}
@@ -24,14 +24,14 @@ const ExperiencePreview = () => {
       {formData?.experience?.map((experience: any, index: number) => (
         <div key={index} className="my-5">
           <h2
-            className="text-sm font-bold"
+            className="text-sm font-bold text-black"
             style={{
               color: formData?.themeColor || themeColors[0],
             }}
           >
             {experience?.title}
           </h2>
-          <h2 className="text-xs flex justify-between">
+          <h2 className="text-xs flex justify-between text-black">
             {experience?.companyName}
             {experience?.companyName && experience?.city && ", "}
             {experience?.city}
@@ -49,7 +49,7 @@ const ExperiencePreview = () => {
           </h2>
           {experience?.workSummary && (
             <div
-              className="text-xs my-2 form-preview"
+              className="text-xs my-2 form-preview text-black"
               dangerouslySetInnerHTML={{
                 __html: experience?.workSummary,
               }}

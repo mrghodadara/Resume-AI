@@ -4,11 +4,11 @@ import React from "react";
 
 function PersonalDetailsPreview() {
   const { formData } = useFormContext();
-  
+
   return (
     <div>
       <h2
-        className="font-bold text-xl text-center"
+        className="font-bold text-xl text-center text-black"
         style={{
           color: formData?.themeColor || themeColors[0],
         }}
@@ -16,12 +16,12 @@ function PersonalDetailsPreview() {
         {formData?.firstName} {formData?.lastName}
       </h2>
 
-      <h2 className="text-center text-sm font-medium">
+      <h2 className="text-center text-sm font-medium text-black">
         {formData?.jobTitle}
       </h2>
 
       <h2
-        className="text-center font-normal text-xs"
+        className="text-center font-normal text-xs text-black"
         style={{
           color: formData?.themeColor || themeColors[0],
         }}
@@ -31,7 +31,7 @@ function PersonalDetailsPreview() {
 
       <div className="flex justify-between">
         <h2
-          className="font-normal text-xs"
+          className="font-normal text-xs text-black"
           style={{
             color: formData?.themeColor || themeColors[0],
           }}
@@ -40,7 +40,7 @@ function PersonalDetailsPreview() {
         </h2>
 
         <h2
-          className="font-normal text-xs"
+          className="font-normal text-xs text-black"
           style={{
             color: formData?.themeColor || themeColors[0],
           }}
@@ -48,7 +48,7 @@ function PersonalDetailsPreview() {
           {formData?.email}
         </h2>
       </div>
-      
+
       <hr
         className="border-[1.5px] my-2 mb-5"
         style={{
